@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+    <h3>New Token Set</h3>
+    <%= form_for(@token) do |f|%>
+      <%= f.label :name %>
+      <%= f.text_field :name, class: 'form-control' %>
+      <br>
+      <%= f.label :symbol %>
+      <%= f.text_field :symbol, class: 'form-control' %>
+      <br>
+      <%= f.label :TotalTokens %>
+      <%= f.text_field :totalTokens, class: 'form-control' %>
+      <br>
+      <%= f.submit 'Token Issue', class: 'btn btn-primary btn-block' %>
+    <% end %>
+  </div>
+</div>

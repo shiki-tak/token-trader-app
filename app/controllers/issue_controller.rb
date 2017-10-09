@@ -1,9 +1,10 @@
 class IssueController < ApplicationController
   def index
-    puts $contract.call.say()
+
   end
 
   def new
+    @token  = Token.new
   end
 
   def create
