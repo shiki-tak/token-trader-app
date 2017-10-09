@@ -1,3 +1,4 @@
+// テスト用smart contract
 pragma solidity ^0.4.15;
 
 contract Greeting {
