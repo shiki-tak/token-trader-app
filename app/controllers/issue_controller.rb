@@ -1,4 +1,6 @@
 class IssueController < ApplicationController
+  before_action :authenticate_user!
+  
   def index
 
   end
@@ -8,15 +10,10 @@ class IssueController < ApplicationController
   end
 
   def create
-  end
 
-  def edit
   end
 
   def show
-  end
-
-  def update
   end
 
   def destroy

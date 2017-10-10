@@ -1,0 +1,7 @@
+<p>Hello <%= @username %>!</p>
+
+<% if @resource.try(:unconfirmed_username?) %>
+  <p>We're contacting you to notify you that your username is being changed to <%= @resource.unconfirmed_username %>.</p>
+<% else %>
+  <p>We're contacting you to notify you that your username has been changed to <%= @resource.username %>.</p>
+<% end %>

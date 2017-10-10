@@ -4,6 +4,7 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.string :name
       t.string :symbol
       t.integer :totalTokens
+      t.string :owner_id
       t.timestamps
     end
   end

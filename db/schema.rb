@@ -10,12 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171009050153) do
+ActiveRecord::Schema.define(version: 20171010072541) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "issues", force: :cascade do |t|
+  create_table "posessions", force: :cascade do |t|
+    t.string   "user_id"
+    t.string   "token_id"
+    t.decimal  "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -24,13 +27,35 @@ ActiveRecord::Schema.define(version: 20171009050153) do
     t.string   "name"
     t.string   "symbol"
     t.integer  "totalTokens"
+    t.string   "owner_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   create_table "trades", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.decimal  "price"
+    t.decimal  "from_token"
+    t.decimal  "to_token"
+    t.string   "maker_address"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "username",               default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+    t.index ["username"], name: "index_users_on_username", unique: true, using: :btree
   end
 
 end
