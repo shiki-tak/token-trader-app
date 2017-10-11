@@ -26,10 +26,11 @@ ActiveRecord::Schema.define(version: 20171010072541) do
   create_table "tokens", force: :cascade do |t|
     t.string   "name"
     t.string   "symbol"
-    t.integer  "totalTokens"
+    t.decimal  "totalTokens"
+    t.decimal  "balanceTokens"
     t.string   "owner_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "trades", force: :cascade do |t|

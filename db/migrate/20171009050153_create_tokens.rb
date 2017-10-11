@@ -3,7 +3,8 @@ class CreateTokens < ActiveRecord::Migration[5.0]
     create_table :tokens do |t|
       t.string :name
       t.string :symbol
-      t.integer :totalTokens
+      t.decimal :totalTokens
+      t.decimal :balanceTokens
       t.string :owner_id
       t.timestamps
     end
