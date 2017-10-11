@@ -5,7 +5,7 @@ contract Token {
 
   string public name;
   string public symbol;
-  uint8 public constant decimals = 18;
+  uint8 public constant floats = 18;
 
   // Owner of this contract
   address public owner;

@@ -9,7 +9,6 @@ class TokensController < ApplicationController
     else
       redirect_to new_user_session_path
     end
-
   end
 
   def new
@@ -25,8 +24,8 @@ class TokensController < ApplicationController
       $client = Ethereum::HttpClient.new('http://localhost:8545')
       $client.personal_unlock_account(owner_address, "pass0")
       @contract = Ethereum::Contract.create(file: PATH, client: $client)
-      # smart contractのデプロイ時にtotalTokensの型がdecimalではエラーが起きるためinteger型にキャストした
-      @address = @contract.deploy_and_wait(owner_address, @token.name, @token.symbol, @token.totalTokens.to_i)
+      # smart contractのデプロイ時にtotalTokensの型がfloatではエラーが起きるためinteger型にキャストした
+      @address = @contract.deploy(owner_address, @token.name, @token.symbol, @token.totalTokens.to_i)
       puts @contract.call.balance_of(owner_address)
       redirect_to tokens_path, notice: "Success Create Token!"
     else
@@ -36,6 +35,6 @@ class TokensController < ApplicationController
 
   private
     def tokens_params
-      params.require(:token).permit(:name, :symbol, :totalTokens, :balanceTokens, :owner_id)
+      params.require(:token).permit(:name, :symbol, :totalTokens, :balanceTokens, :owner_id).to_h
     end
 end
