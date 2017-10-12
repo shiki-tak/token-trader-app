@@ -35,11 +35,13 @@ ActiveRecord::Schema.define(version: 20171010072541) do
 
   create_table "trades", force: :cascade do |t|
     t.decimal  "price"
-    t.decimal  "from_token"
-    t.decimal  "to_token"
+    t.string   "from_token_name"
+    t.string   "to_token_name"
+    t.decimal  "from_token_amount"
+    t.decimal  "to_token_amount"
     t.string   "maker_address"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
   end
 
   create_table "users", force: :cascade do |t|

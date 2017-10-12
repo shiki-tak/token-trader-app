@@ -6,4 +6,7 @@ Rails.application.routes.draw do
   resources :trades, only: [:index, :new, :create]
 
   root 'top#index'
+
+  get 'selecttoken' => 'trades#selecttoken'
+
 end
