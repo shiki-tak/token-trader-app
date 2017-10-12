@@ -44,6 +44,14 @@
     <h3 id="modal_label">Select Token</h3>
     <div class="modal-body">
       <h4>Please select Token</h4>
+      <p>From</p>
+      <%= form_for(@tokens) do |f| %>
+        <%= f.collection_select(:id, Token.all, :id, :symbol, {prompt: ""}, {class: "form-control bootstrap-date-only-width"})  %>
+      <% end %>
+      <p>Token to </p>
+      <%= form_for(@tokens) do |f| %>
+        <%= f.collection_select(:id, Token.all, :id, :symbol, {prompt: ""}, {class: "form-control bootstrap-date-only-width"})  %>
+      <% end %>
     </div>
     <div class="modal-footer">
       <%= link_to 'select', new_trade_path, class: 'btn btn-block' %>
