@@ -11,7 +11,4 @@ class TradesController < ApplicationController
 
   def create
   end
-
-  def selecttoken
-  end
 end

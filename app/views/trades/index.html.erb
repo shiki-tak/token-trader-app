@@ -29,6 +29,24 @@
   <br>
   <br>
   <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
-    <%= link_to "Token Trade", selecttoken_path, class:'btn btn-primary btn-block'%>
+    <!-- modal create button -->
+    <!-- <%= link_to "Token Sale", "#selecttoken-modal", "data-toggle" => "modal" %> -->
+    <button class="btn btn-primary btn-lg btn-block"data-toggle="modal" data-target="#selecttoken">
+      Token Sale
+    </button>
+    </a>
+  </div>
+</div>
+
+<div class="modal fade" id="selecttoken" tabindex="-1" role="dialog" aria-labelledby="dialogHeader"　style="display: none; " aria-hidden="true">
+  <div class="modal-dialog">
+    <button class="close" aria-hidden="true" data-dismiss="modal" type="button">x</button>
+    <h3 id="modal_label">Select Token</h3>
+    <div class="modal-body">
+      <h4>Please select Token</h4>
+    </div>
+    <div class="modal-footer">
+      <%= link_to 'select', new_trade_path, class: 'btn btn-block' %>
+    </div>
   </div>
 </div>
