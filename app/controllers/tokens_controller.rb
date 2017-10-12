@@ -1,7 +1,6 @@
 class TokensController < ApplicationController
+  require "#{Dir.pwd}/app/models/EthereumAPI.rb"
   before_action :authenticate_user!
-
-  PATH = "#{Dir.pwd}/contracts/Token.sol"
 
   def index
     if user_signed_in?
@@ -20,13 +19,8 @@ class TokensController < ApplicationController
     @token.owner_id = current_user.username
     @token.balanceTokens = @token.totalTokens
     if @token.save
-      owner_address = "0xd4232bdbc4cdbdc9d131103de55b9a2b68d45c78"
-      $client = Ethereum::HttpClient.new('http://localhost:8545')
-      $client.personal_unlock_account(owner_address, "pass0")
-      @contract = Ethereum::Contract.create(file: PATH, client: $client)
-      # smart contractのデプロイ時にtotalTokensの型がfloatではエラーが起きるためinteger型にキャストした
-      @address = @contract.deploy(owner_address, @token.name, @token.symbol, @token.totalTokens.to_i)
-      puts @contract.call.balance_of(owner_address)
+      smartContract = EthereumAPI.new()
+      smartContract.deployERC20Token(@token.name, @token.symbol, @token.totalTokens.to_i)
       redirect_to tokens_path, notice: "Success Create Token!"
     else
       render 'new'

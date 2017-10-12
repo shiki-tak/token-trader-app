@@ -1,7 +1,7 @@
 // ERC20に準拠したトークンを発行する
 pragma solidity ^0.4.15;
 
-contract Token {
+contract ERC20Token {
 
   string public name;
   string public symbol;
@@ -19,7 +19,7 @@ contract Token {
   mapping (address => mapping (address => uint) ) allowed;
 
   // Constructor
-  function Token(address _owner, string _name, string _symbol, uint _totalTokens) {
+  function ERC20Token(address _owner, string _name, string _symbol, uint _totalTokens) {
     owner = _owner;
     name = _name;
     symbol = _symbol;
