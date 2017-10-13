@@ -19,6 +19,7 @@ class TokensController < ApplicationController
     @token.owner_id = current_user.username
     @token.balanceTokens = @token.totalTokens
     if @token.save
+      # execute smart contract
       smartContract = EthereumAPI.new()
       smartContract.deployERC20Token(@token.name, @token.symbol, @token.totalTokens.to_i)
       redirect_to tokens_path, notice: "Success Create Token!"
