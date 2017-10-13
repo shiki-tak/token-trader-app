@@ -19,7 +19,17 @@
             <td><%= trade.price %></td>
             <td><%= trade.from_token_name %>: <%= trade.from_token_amount %></td>
             <td><%= trade.to_token_name %>: <%= trade.to_token_amount %></td>
-            <td><label>EXE</label></td>
+            <td>
+              <% unless user_signed_in? %>
+                <%= form_for(@trade_amount) do |f|%>
+                  <%= f.label :amount %>
+                  <%= f.text_field :from_token_amount%>
+                  <%= f.submit "BUY", class: "btn btn-primary" %>
+                <% end %>
+              <% else %>
+                <%= link_to "Cancel", trade_path(trade.id), method: :delete, data: { confirm: "Cancel this sale's information"}, class: 'btn btn-default btn-sm btn btn-danger' %>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
