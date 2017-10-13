@@ -23,7 +23,9 @@ class EthereumAPI
     createAccount = $client.personal_new_account(password)
     createAccountAtJSON = JSON.generate(createAccount)
     createAccountResult = JSON.parse(createAccountAtJSON)
-    puts createAccountResult
-    $client.personal_unlock_account(createAccountResult['result'].to_s, password)
+    etherAccount = createAccountResult['result'].to_s
+    $client.personal_unlock_account(etherAccount, password)
+    puts "createGethAccount Result: #{etherAccount}"
+    return etherAccount
   end
 end

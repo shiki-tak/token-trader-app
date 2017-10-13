@@ -1,13 +1,21 @@
 class HashedusersController < ApplicationController
-  require 'digest/md5'
+  require 'digest/sha3'
   require "#{Dir.pwd}/app/models/EthereumAPI.rb"
 
+  # Make hashed account from username and password
   def createhasheduser(username, password)
     @hasheduser = Hasheduser.new
     smartContract = EthereumAPI.new()
-    Digest::MD5.new.update(username).to_s
-    smartContract.createGethAccount(password)
-    # create geth account
-    puts "#{Digest::MD5.new.update(username).to_s}"
+    hash = Digest::SHA3.new
+    hash.update(username)
+    @hasheduser.hashed_username = hash.update(password).to_s
+    @hasheduser.ether_account = smartContract.createGethAccount(password)
+    if @hasheduser.save
+      puts "Success create hashed user account"
+      puts "Hashed username result: #{@hasheduser.hashed_username}"
+      puts "Ether Account: #{@hasheduser.ether_account}"
+    else
+      # TODO: Processing when an error occurs
+    end
   end
 end
