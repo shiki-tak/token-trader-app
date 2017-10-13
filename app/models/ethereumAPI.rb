@@ -20,7 +20,6 @@ class EthereumAPI
 
   def createGethAccount(password)
     $client = Ethereum::HttpClient.new('http://localhost:8545')
-    binding.pry
     createAccount = $client.personal_new_account(password)
     createAccountAtJSON = JSON.generate(createAccount)
     createAccountResult = JSON.parse(createAccountAtJSON)

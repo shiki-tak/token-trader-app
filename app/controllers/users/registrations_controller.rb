@@ -11,10 +11,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
-    current_user.username
     hashedUserFunction = HashedusersController.new()
     hashedUserFunction.createhasheduser(current_user.username, current_user.password)
-
   end
 
   # GET /resource/edit
