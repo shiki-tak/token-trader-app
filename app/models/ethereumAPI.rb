@@ -1,5 +1,6 @@
 class EthereumAPI
   PATH = "#{Dir.pwd}/contracts/ERC20Token.sol"
+  require 'json'
 
   def deployERC20Token(name, symbol, totalTokens)
     owner_address = "0xd4232bdbc4cdbdc9d131103de55b9a2b68d45c78"
@@ -15,5 +16,15 @@ class EthereumAPI
   def executeTransfer(maker_address, to_username, amount)
     @contract = Ethereum::Contract.create(file: PATH, client: $client)
     @address = @contract.transact_and_wait.transfer_from(maker_address, to_username, amount)
+  end
+
+  def createGethAccount(password)
+    $client = Ethereum::HttpClient.new('http://localhost:8545')
+    binding.pry
+    createAccount = $client.personal_new_account(password)
+    createAccountAtJSON = JSON.generate(createAccount)
+    createAccountResult = JSON.parse(createAccountAtJSON)
+    puts createAccountResult
+    $client.personal_unlock_account(createAccountResult['result'].to_s, password)
   end
 end

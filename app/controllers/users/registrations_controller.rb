@@ -13,7 +13,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
     super
     current_user.username
     hashedUserFunction = HashedusersController.new()
-    hashedUserFunction.createhasheduser(current_user.username)
+    hashedUserFunction.createhasheduser(current_user.username, current_user.password)
+
   end
 
   # GET /resource/edit
