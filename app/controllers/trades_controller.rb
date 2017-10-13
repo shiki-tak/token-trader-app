@@ -30,7 +30,6 @@ class TradesController < ApplicationController
   end
 
   def transfer
-    binding.pry
     # execute smart contract (transferfrom)
     smartContract = EthereumAPI.new()
     smartContract.executeTransfer(@trade.maker_address, current_user.username, params[:amount].to_f)

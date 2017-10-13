@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171010072541) do
+ActiveRecord::Schema.define(version: 20171013082445) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "hashedusers", force: :cascade do |t|
+    t.string   "hashed_username"
+    t.string   "ether_account"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
 
   create_table "posessions", force: :cascade do |t|
     t.string   "user_id"

@@ -1,0 +1,2 @@
+class Hasheduser < ApplicationRecord
+end
