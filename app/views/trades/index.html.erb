@@ -1,7 +1,6 @@
 <div class="container">
   <h1>Token Trade Information List</h1>
   <div class="table-responsive">
-    <!-- テーブルにクラスを追加 -->
     <table class="table table-striped">
       <thead>
         <tr>
@@ -9,10 +8,8 @@
           <th>Amount</th>
           <th>Total</th>
           <th>Purchase</th>
-          <th colspan="3"></th>
         </tr>
       </thead>
-
       <tbody>
         <% @trades.each do |trade| %>
           <tr>
@@ -20,14 +17,14 @@
             <td><%= trade.from_token_name %>: <%= trade.from_token_amount %></td>
             <td><%= trade.to_token_name %>: <%= trade.to_token_amount %></td>
             <td>
-              <% unless user_signed_in? %>
-                <%= form_for(@trade_amount) do |f|%>
-                  <%= f.label :amount %>
-                  <%= f.text_field :from_token_amount%>
-                  <%= f.submit "BUY", class: "btn btn-primary" %>
+              <% unless current_user.username == trade.maker_address %>
+                <%= form_tag("/trades/transfer", method: "post") do %>
+                  <%= text_field_tag(:amount) %>
+                  <%= hidden_field_tag(:id, trade.id)%>
+                  <%= submit_tag("BUY") %>
                 <% end %>
               <% else %>
-                <%= link_to "Cancel", trade_path(trade.id), method: :delete, data: { confirm: "Cancel this sale's information"}, class: 'btn btn-default btn-sm btn btn-danger' %>
+                <%= link_to "CANCEL", trade_path(trade.id), method: :delete, data: { confirm: "Cancel this sale's information"}, class: 'btn btn-default btn-sm btn btn-danger' %>
               <% end %>
             </td>
           </tr>

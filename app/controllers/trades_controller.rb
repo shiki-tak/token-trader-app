@@ -1,6 +1,6 @@
 class TradesController < ApplicationController
   require "#{Dir.pwd}/app/models/EthereumAPI.rb"
-  before_action :set_trade, only: [:update, :destroy]
+  before_action :set_trade, only: [:transfer, :destroy]
 
   def index
     @trades = Trade.all
@@ -29,15 +29,18 @@ class TradesController < ApplicationController
     end
   end
 
-  def update
-    puts "update"
+  def transfer
+    binding.pry
+    # execute smart contract (transferfrom)
+    smartContract = EthereumAPI.new()
+    smartContract.executeTransfer(@trade.maker_address, current_user.username, params[:amount].to_f)
+    redirect_to trades_path, notice: "Success!"
   end
 
   def destroy
     @trade.destroy
     redirect_to trades_path, notice: "Success Cancel"
   end
-
 
   private
     def trade_params
