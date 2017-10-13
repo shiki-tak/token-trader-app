@@ -11,8 +11,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # POST /resource
   def create
     super
+    current_user.username
     hashedUserFunction = HashedusersController.new()
-    hashedUserFunction.create()
+    hashedUserFunction.createhasheduser(current_user.username)
   end
 
   # GET /resource/edit
@@ -38,10 +39,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def cancel
   #   super
   # end
-
-  def hashed
-
-  end
 
   # protected
 

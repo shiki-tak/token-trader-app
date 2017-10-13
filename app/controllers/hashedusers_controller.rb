@@ -1,7 +1,7 @@
 class HashedusersController < ApplicationController
 
-  def create
-    binding.pry
-    puts "hashed"
+  def createhasheduser(username)
+    @hasheduser = Hasheduser.new
+    puts "#{username}"
   end
 end
