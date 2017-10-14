@@ -17,7 +17,7 @@
             <td><%= trade.from_token_name %>: <%= trade.from_token_amount %></td>
             <td><%= trade.to_token_name %>: <%= trade.to_token_amount %></td>
             <td>
-              <% unless current_user.username == trade.maker_address %>
+              <% unless @hasheduser.ether_account == trade.maker_address %>
                 <%= form_tag("/trades/transfer", method: "post") do %>
                   <%= text_field_tag(:amount) %>
                   <%= hidden_field_tag(:id, trade.id)%>

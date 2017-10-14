@@ -7,6 +7,7 @@ class TradesController < ApplicationController
     @tokens = Token.new
     @trade = Trade.new
     @trade_amount = Trade.new
+    @hasheduser = Hasheduser.find(current_user.id)
   end
 
   def new
@@ -20,7 +21,8 @@ class TradesController < ApplicationController
       @trade.from_token_name =  Token.find(@trade.from_token_name.to_i).symbol
       @trade.to_token_name =  Token.find(@trade.to_token_name.to_i).symbol
       @trade.to_token_amount = @trade.price * @trade.from_token_amount
-      @trade.maker_address = current_user.username
+      @hasheduser = Hasheduser.find(current_user.id)
+      @trade.maker_address = @hasheduser.ether_account
       if @trade.save
         redirect_to trades_path, notice: "Success Sale's Info Set!"
       else
@@ -31,9 +33,11 @@ class TradesController < ApplicationController
 
   def transfer
     # execute smart contract (transferfrom)
+    @hasheduser = Hasheduser.find(current_user.id)
+    binding.pry
     smartContract = EthereumAPI.new()
-    smartContract.executeTransfer(@trade.maker_address, current_user.username, params[:amount].to_f)
-    redirect_to trades_path, notice: "Success!"
+    smartContract.executeTransfer(@trade.maker_address, @hasheduser.ether_account, params[:amount].to_i, current_user.password)
+    redirect_to trades_path, notice: "Success Transfer!"
   end
 
   def destroy

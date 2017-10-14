@@ -1,9 +1,13 @@
+# TODO: Refactoring
 class EthereumAPI
   PATH = "#{Dir.pwd}/contracts/ERC20Token.sol"
-  require 'json'
+  require "#{Dir.pwd}/app/models/hasheduser.rb"
+  require "json"
 
   def deployERC20Token(name, symbol, totalTokens)
-    owner_address = "0xd4232bdbc4cdbdc9d131103de55b9a2b68d45c78"
+    # TODO: Error handling when executing Smart Contract
+    # owner_address = "0xd4232bdbc4cdbdc9d131103de55b9a2b68d45c78" # office mac book air
+    owner_address = "0xd34da9604e5e9c2a9cc0aa481b6b24a72af3253b" # private mac book air
     $client = Ethereum::HttpClient.new('http://localhost:8545')
     $client.personal_unlock_account(owner_address, "pass0")
     @contract = Ethereum::Contract.create(file: PATH, client: $client)
@@ -13,9 +17,10 @@ class EthereumAPI
   end
 
   # execute trade
-  def executeTransfer(maker_address, to_username, amount)
+  def executeTransfer(maker_address, from_username, amount, password)
     @contract = Ethereum::Contract.create(file: PATH, client: $client)
-    @address = @contract.transact_and_wait.transfer_from(maker_address, to_username, amount)
+    $client.personal_unlock_account(from_username, password)
+    @address = @contract.transact_and_wait.transfer_from(maker_address, from_username, amount)
   end
 
   def createGethAccount(password)
