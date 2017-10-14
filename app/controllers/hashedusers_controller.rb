@@ -4,7 +4,6 @@ class HashedusersController < ApplicationController
 
   # Make hashed account from username and password
   def createhasheduser(username, password)
-    binding.pry
     @hasheduser = Hasheduser.new
     smartContract = EthereumAPI.new()
     hash = Digest::SHA3.new

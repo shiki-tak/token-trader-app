@@ -23,6 +23,7 @@ class TokensController < ApplicationController
       # execute smart contract
       smartContract = EthereumAPI.new()
       ether_account_password = @hasheduser.ether_account_password
+      # smartContract.set_client(@token.owner_id, ether_account_password)
       smartContract.deployERC20Token(@token.owner_id, ether_account_password, @token.name, @token.symbol, @token.totalTokens.to_i)
       redirect_to tokens_path, notice: "Success Create Token!"
     else
