@@ -34,7 +34,6 @@ class TradesController < ApplicationController
   def transfer
     # execute smart contract (transferfrom)
     @hasheduser = Hasheduser.find(current_user.id)
-    binding.pry
     smartContract = EthereumAPI.new()
     smartContract.executeTransfer(@trade.maker_address, @hasheduser.ether_account, params[:amount].to_i, current_user.password)
     redirect_to trades_path, notice: "Success Transfer!"

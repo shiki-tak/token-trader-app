@@ -18,8 +18,9 @@ ActiveRecord::Schema.define(version: 20171013082445) do
   create_table "hashedusers", force: :cascade do |t|
     t.string   "hashed_username"
     t.string   "ether_account"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "ether_account_password"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "posessions", force: :cascade do |t|
