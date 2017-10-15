@@ -19,13 +19,17 @@ class EthereumAPI
     # ISSUE: 一度ロックがかかると解除できない ⇒ contractのdeployに失敗する
     # smart contractのデプロイ時にtotalTokensの型がfloatではエラーが起きるためinteger型にキャストした
     @address = @contract.deploy_and_wait(owner_address, name, symbol, totalTokens.to_i)
-    puts @contract.call.balance_of(owner_address)
+    puts "Success contract deploy!"
+    puts "Contract address: #{@contract.address}"
+    puts "Token Total Supply: #{@contract.call.balance_of(owner_address)}"
+    return @contract.address
   end
 
   # execute trade
   def executeTransfer(maker_address, to_username, amount, password)
     @contract = Ethereum::Contract.create(file: PATH, client: @client)
     @address = @contract.transact_and_wait.transfer_from(maker_address, to_username, amount)
+    puts "Success Transfer!"
   end
 
   def createGethAccount(password)
@@ -36,7 +40,6 @@ class EthereumAPI
     etherAccount = createAccountResult['result'].to_s
     sendEtherForGas(etherAccount)
     @client.personal_unlock_account(etherAccount, password)
-    @contract = Ethereum::Contract.create(file: PATH, client: @client)
     puts "createGethAccount Result: #{etherAccount}"
     return etherAccount
   end
@@ -47,7 +50,7 @@ class EthereumAPI
     @client.eth_send_transaction({
       "from": SUPPLIER_ADDRESS,
       "to": etherAccount,
-      "value": "0x64"
+      "value": "0x3b9aca00"
       })
       puts "Success send ether from #{SUPPLIER_ADDRESS} to #{etherAccount}"
   end

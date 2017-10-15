@@ -5,6 +5,7 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.string :symbol
       t.decimal :totalTokens
       t.decimal :balanceTokens
+      t.string :token_address
       t.string :owner_id
       t.timestamps
     end

@@ -8,6 +8,8 @@ Rails.application.routes.draw do
 
   resources :trades, only: [:index, :new, :create, :update, :destroy]
 
+  resources :posessions, only: [:index]
+
   post 'trades/transfer' => 'trades#transfer'
 
   root 'top#index'

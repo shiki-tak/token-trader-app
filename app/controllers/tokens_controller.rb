@@ -24,7 +24,8 @@ class TokensController < ApplicationController
       smartContract = EthereumAPI.new()
       ether_account_password = @hasheduser.ether_account_password
       # smartContract.set_client(@token.owner_id, ether_account_password)
-      smartContract.deployERC20Token(@token.owner_id, ether_account_password, @token.name, @token.symbol, @token.totalTokens.to_i)
+      @token.token_address = smartContract.deployERC20Token(@token.owner_id, ether_account_password, @token.name, @token.symbol, @token.totalTokens.to_i)
+      @token.update(tokens_params)
       redirect_to tokens_path, notice: "Success Create Token!"
     else
       render 'new'
@@ -33,6 +34,6 @@ class TokensController < ApplicationController
 
   private
     def tokens_params
-      params.require(:token).permit(:name, :symbol, :totalTokens, :balanceTokens, :owner_id).to_h
+      params.require(:token).permit(:name, :symbol, :totalTokens, :balanceTokens, :token_address, :owner_id).to_h
     end
 end

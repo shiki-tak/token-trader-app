@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20171013082445) do
     t.string   "symbol"
     t.decimal  "totalTokens"
     t.decimal  "balanceTokens"
+    t.string   "token_address"
     t.string   "owner_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
