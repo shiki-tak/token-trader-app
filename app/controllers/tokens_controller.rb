@@ -19,13 +19,13 @@ class TokensController < ApplicationController
     @hasheduser = Hasheduser.find(current_user.id)
     @token.owner_id = @hasheduser.ether_account
     @token.balanceTokens = @token.totalTokens
-    if @token.save
-      # execute smart contract
-      smartContract = EthereumAPI.new()
-      ether_account_password = @hasheduser.ether_account_password
-      # smartContract.set_client(@token.owner_id, ether_account_password)
-      @token.token_address = smartContract.deployERC20Token(@token.owner_id, ether_account_password, @token.name, @token.symbol, @token.totalTokens.to_i)
-      @token.update(tokens_params)
+    # Create smart contract instance
+    smartContract = EthereumAPI.new()
+    ether_account_password = @hasheduser.ether_account_password
+    # Execute smart contract
+    @token.token_address, deploy_try_result = smartContract.deployERC20Token(@token.owner_id, ether_account_password, @token.name, @token.symbol, @token.totalTokens.to_i)
+    if deploy_try_result
+      @token.save
       redirect_to tokens_path, notice: "Success Create Token!"
     else
       render 'new'

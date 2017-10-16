@@ -3,8 +3,8 @@ class EthereumAPI
   PATH = "#{Dir.pwd}/contracts/ERC20Token.sol"
   require "#{Dir.pwd}/app/models/hasheduser.rb"
   require "json"
-  # SUPPLIER_ADDRESS = "0xd4232bdbc4cdbdc9d131103de55b9a2b68d45c78" # office mac book air
-  SUPPLIER_ADDRESS = "0xd34da9604e5e9c2a9cc0aa481b6b24a72af3253b" # private mac book air
+  SUPPLIER_ADDRESS = "0xd4232bdbc4cdbdc9d131103de55b9a2b68d45c78" # office mac book air
+  # SUPPLIER_ADDRESS = "0xd34da9604e5e9c2a9cc0aa481b6b24a72af3253b" # private mac book air
   SUPPLIER_PASSWORD = "pass0"
 
   def set_client(owner_address, ether_account_password)
@@ -15,14 +15,21 @@ class EthereumAPI
 
   def deployERC20Token(owner_address, ether_account_password, name, symbol, totalTokens)
     set_client(owner_address, ether_account_password)
-    @contract = Ethereum::Contract.create(file: PATH, client: @client)
-    # ISSUE: 一度ロックがかかると解除できない ⇒ contractのdeployに失敗する
-    # smart contractのデプロイ時にtotalTokensの型がfloatではエラーが起きるためinteger型にキャストした
-    @address = @contract.deploy_and_wait(owner_address, name, symbol, totalTokens.to_i)
+    # Exception handling
+    begin
+      @contract = Ethereum::Contract.create(file: PATH, client: @client)
+      # ISSUE: 一度ロックがかかると解除できない ⇒ contractのdeployに失敗する
+      # smart contractのデプロイ時にtotalTokensの型がfloatではエラーが起きるためinteger型にキャストした
+      @address = @contract.deploy_and_wait(owner_address, name, symbol, totalTokens.to_i)
+    rescue => e
+      puts "Exception handling"
+      puts e.message
+      return "Error", false
+    end
     puts "Success contract deploy!"
     puts "Contract address: #{@contract.address}"
     puts "Token Total Supply: #{@contract.call.balance_of(owner_address)}"
-    return @contract.address
+    return @contract.address, true
   end
 
   # execute trade
