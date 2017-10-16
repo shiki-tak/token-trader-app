@@ -37,9 +37,13 @@ class EthereumAPI
   end
 
   # execute trade
-  def executeTransfer(maker_address, to_username, amount, password)
+  def executeTransfer(maker_token_addr, taker_token_addr, maker_address, taker_address, amount, password)
+    # trade token smart contract execute
     @contract = Ethereum::Contract.create(file: PATH, client: @client)
-    @address = @contract.transact_and_wait.transfer_from(maker_address, to_username, amount)
+    # TODO: Fix to use send_transaction
+    @contract.send_transaction('', 'ERC20Token', 'transferFrom', [maker_token_addr, maker_address, taker_address, amount], SWAP_TRADE_ABI)
+    # @address = @contract.transact_and_wait.transfer_from(maker_token_addr, maker_address, taker_address, amount)
+    # @address = @contract.transact_and_wait.transfer_from(taker_token_addr, taker_address, maker_address, amount)
     puts "Success Transfer!"
   end
 

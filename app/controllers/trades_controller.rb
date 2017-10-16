@@ -14,6 +14,7 @@ class TradesController < ApplicationController
   end
 
   def create
+    # TODO: Trades TableのTokenの名前に関する情報を別テーブルにする
     @trade = Trade.new(trade_params)
     if @trade.from_token_name == @trade.to_token_name
       redirect_to trades_path, notice: "Token types are the same!"
@@ -32,10 +33,14 @@ class TradesController < ApplicationController
   end
 
   def transfer
+    # get token address
+    maker_token_address = Token.find_by(symbol: @trade.from_token_name).token_address
+    taker_token_address = Token.find_by(symbol: @trade.to_token_name).token_address
+
     # execute smart contract (transferfrom)
     @hasheduser = Hasheduser.find(current_user.id)
     smartContract = EthereumAPI.new()
-    smartContract.executeTransfer(@trade.maker_address, @hasheduser.ether_account, params[:amount].to_i, current_user.password)
+    smartContract.executeTransfer(maker_token_address, taker_token_address, @trade.maker_address, @hasheduser.ether_account, params[:amount].to_i, current_user.password)
     redirect_to trades_path, notice: "Success Transfer!"
   end
 
