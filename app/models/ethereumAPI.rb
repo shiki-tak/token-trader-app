@@ -41,6 +41,9 @@ class EthereumAPI
     # trade token smart contract execute
     @contract = Ethereum::Contract.create(file: PATH, client: @client)
     # TODO: Fix to use send_transaction
+    # ISSUE: RemixでSwapTrade.sol経由でERC20Token.solのtransferFromを実行しようとすると
+    # 「callback contain no result Gas required exceeds limit: 3000000」のエラーが発生する
+    #  →send_transactionを使ってtoken_addressを渡せない...
     @contract.send_transaction('', 'ERC20Token', 'transferFrom', [maker_token_addr, maker_address, taker_address, amount], SWAP_TRADE_ABI)
     # @address = @contract.transact_and_wait.transfer_from(maker_token_addr, maker_address, taker_address, amount)
     # @address = @contract.transact_and_wait.transfer_from(taker_token_addr, taker_address, maker_address, amount)
