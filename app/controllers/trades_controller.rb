@@ -36,11 +36,10 @@ class TradesController < ApplicationController
     # get token address
     maker_token_address = Token.find_by(symbol: @trade.from_token_name).token_address
     taker_token_address = Token.find_by(symbol: @trade.to_token_name).token_address
-
     # execute smart contract (transferfrom)
     @hasheduser = Hasheduser.find(current_user.id)
     smartContract = EthereumAPI.new()
-    smartContract.executeTransfer(maker_token_address, taker_token_address, @trade.maker_address, @hasheduser.ether_account, params[:amount].to_i, current_user.password)
+    smartContract.executeTransfer(maker_token_address, taker_token_address, @trade.maker_address, @hasheduser.ether_account, params[:amount].to_i, @hasheduser.ether_account_password)
     redirect_to trades_path, notice: "Success Transfer!"
   end
 
