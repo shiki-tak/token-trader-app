@@ -51,6 +51,7 @@ class EthereumAPI
     #  →send_transactionを使ってtoken_addressを渡せない...
     binding.pry
     begin
+      # TODO: maker_token_amountとtaker_token_amountに分けてcontractを実行しないと、上手くいかない...
       @address = @maker_contract.transact_and_wait.transfer_from(maker_address, taker_address, amount)
       @address = @taker_contract.transact_and_wait.transfer_from(taker_address, maker_address, amount)
       puts "Success Transfer!"
