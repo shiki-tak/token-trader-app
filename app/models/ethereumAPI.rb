@@ -40,7 +40,7 @@ class EthereumAPI
   end
 
   # execute trade
-  def executeTransfer(maker_token_addr, taker_token_addr, maker_address, taker_address, amount, ether_account_password)
+  def executeTransfer(maker_token_addr, taker_token_addr, maker_address, taker_address, maker_amount, taker_amount, ether_account_password)
     set_client(taker_address, ether_account_password)
     # trade token smart contract execute
     @maker_contract = Ethereum::Contract.create(file: ETHEREUM_TOKEN_PATH, client: @client, address: maker_token_addr, abi: ERC20TOKEN_ABI)
@@ -49,14 +49,17 @@ class EthereumAPI
     # ISSUE: RemixでSwapTrade.sol経由でERC20Token.solのtransferFromを実行しようとすると
     # 「callback contain no result Gas required exceeds limit: 3000000」のエラーが発生する
     #  →send_transactionを使ってtoken_addressを渡せない...
-    binding.pry
     begin
       # TODO: maker_token_amountとtaker_token_amountに分けてcontractを実行しないと、上手くいかない...
-      @address = @maker_contract.transact_and_wait.transfer_from(maker_address, taker_address, amount)
-      @address = @taker_contract.transact_and_wait.transfer_from(taker_address, maker_address, amount)
+      @address = @maker_contract.transact_and_wait.transfer_from(maker_address, taker_address, maker_amount)
+      @address = @taker_contract.transact_and_wait.transfer_from(taker_address, maker_address, taker_amount)
       puts "Success Transfer!"
-      puts "Maker' balance: #{@maker_contract.call.balance_of(maker_address)}"
-      puts "Taker's balance: #{@taker_contract.call.balance_of(taker_address)}"
+      puts "Maker' balance"
+      puts "Maker Token: #{@maker_contract.call.balance_of(maker_address)}"
+      puts "Taker Token: #{@taker_contract.call.balance_of(maker_address)}"
+      puts "Taker's balance"
+      puts "Maker Token: #{@maker_contract.call.balance_of(taker_address)}"
+      puts "Taker Token: #{@taker_contract.call.balance_of(taker_address)}"
     rescue => e
       puts "Exception handling"
       puts e.message
