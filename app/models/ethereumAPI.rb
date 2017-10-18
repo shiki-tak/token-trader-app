@@ -5,7 +5,7 @@ class EthereumAPI
 
   # TODO: Setting constants
   # ETHEREUM_ADDRESS = "http://localhost:8545"
-  #TODO: IPCで接続に成功したらETHEREUM_ADDRESSの名前を変更する
+  # TODO: IPCで接続に成功したらETHEREUM_ADDRESSの名前を変更する
   #      PATHの指定の仕方がイケてない...
   ETHEREUM_ADDRESS = "/Users/user1/eth/data_testnet/geth.ipc"
   ETHEREUM_TOKEN_PATH = "#{Dir.pwd}/contracts/ERC20Token.sol"
@@ -50,7 +50,7 @@ class EthereumAPI
     # 「callback contain no result Gas required exceeds limit: 3000000」のエラーが発生する
     #  →send_transactionを使ってtoken_addressを渡せない...
     begin
-      # TODO: maker_token_amountとtaker_token_amountに分けてcontractを実行しないと、上手くいかない...
+      # TODO: maker_token_amountとtaker_token_amountに分けてcontractを実行しないと、上手くいかない...しかし、一つにまとめたい
       @address = @maker_contract.transact_and_wait.transfer_from(maker_address, taker_address, maker_amount)
       @address = @taker_contract.transact_and_wait.transfer_from(taker_address, maker_address, taker_amount)
       puts "Success Transfer!"

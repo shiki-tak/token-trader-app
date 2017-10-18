@@ -15,7 +15,7 @@ class TradesController < ApplicationController
 
   def create
     # TODO: Trades TableのTokenの名前に関する情報を別テーブルにする
-    @trade = Trade.new(trade_params)
+    @trade = Trade.new(trades_params)
     if @trade.from_token_name == @trade.to_token_name
       redirect_to trades_path, notice: "Token types are the same!"
     else
@@ -38,11 +38,25 @@ class TradesController < ApplicationController
     taker_token_address = Token.find_by(symbol: @trade.to_token_name).token_address
     # execute smart contract (transferfrom)
     @hasheduser = Hasheduser.find(current_user.id)
-    maker_amount = params[:amount].to_i
-    taker_amount = (maker_amount * @trade.price).to_i
-    smartContract = EthereumAPI.new()
-    smartContract.executeTransfer(maker_token_address, taker_token_address, @trade.maker_address, @hasheduser.ether_account, maker_amount, taker_amount, @hasheduser.ether_account_password)
-    redirect_to trades_path, notice: "Success Transfer!"
+    if @trade.from_token_amount < params[:amount].to_i
+      puts "It exceeds the amount that can be traded"
+      redirect_to trades_path, notice: "It exceeds the amount that can be traded"
+    else
+      maker_amount = params[:amount].to_i
+      taker_amount = (maker_amount * @trade.price).to_i
+      # TODO: update Trade Table
+      @trade.from_token_amount -= maker_amount
+      @trade.to_token_amount -= taker_amount
+      binding.pry
+      @trade.update(from_token_amount: @trade.from_token_amount, to_token_amount: @trade.to_token_amount)
+      puts "Update Trade Table"
+      puts "#{@trade.from_token_name}: #{@trade.from_token_amount}"
+      puts "#{@trade.to_token_name}: #{@trade.from_token_amount}"
+      binding.pry
+      smartContract = EthereumAPI.new()
+      smartContract.executeTransfer(maker_token_address, taker_token_address, @trade.maker_address, @hasheduser.ether_account, maker_amount, taker_amount, @hasheduser.ether_account_password)
+      redirect_to trades_path, notice: "Success Transfer!"
+    end
   end
 
   def destroy
@@ -51,8 +65,8 @@ class TradesController < ApplicationController
   end
 
   private
-    def trade_params
-      params.require(:trade).permit(:price, :from_token_name, :to_token_name, :from_token_amount, :to_token_amount, :maker_address).to_h
+    def trades_params
+      params.require(:trade).permit(:price, :from_token_name, :to_token_name, :from_token_amount, :to_token_amount).to_h
     end
 
     def set_trade
