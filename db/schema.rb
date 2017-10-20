@@ -24,8 +24,8 @@ ActiveRecord::Schema.define(version: 20171013082445) do
   end
 
   create_table "posessions", force: :cascade do |t|
-    t.string   "user_id"
-    t.string   "token_id"
+    t.integer  "user_id"
+    t.integer  "token_id"
     t.decimal  "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20171013082445) do
     t.decimal  "totalTokens"
     t.decimal  "balanceTokens"
     t.string   "token_address"
-    t.string   "owner_id"
+    t.integer  "owner_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
   end

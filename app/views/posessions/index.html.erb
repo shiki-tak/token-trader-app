@@ -15,9 +15,9 @@
       <tbody>
         <% @posessions.each do |posession| %>
           <tr>
-            <td><%= posession.symbol %></td>
-            <td><%= posession.name %></td>
-            <td><%= posession.totalTokens%></td>
+            <td><%= posession.token.symbol %></td>
+            <td><%= posession.token.name %></td>
+            <td><%= posession.balance %></td>
           </tr>
         <% end %>
       </tbody>

@@ -6,7 +6,7 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.decimal :totalTokens
       t.decimal :balanceTokens
       t.string :token_address
-      t.string :owner_id
+      t.integer :owner_id
       t.timestamps
     end
   end
