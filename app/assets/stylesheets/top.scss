@@ -5,3 +5,56 @@
   color: white;
   padding-top: 10px;
 }
+
+.navbar-default {
+  margin-bottom: auto;
+}
+
+.title {
+  text-align: center;
+  h1 {
+    margin: 0 auto;
+    padding-top: 50px;
+    font-size: 80px;
+  }
+}
+
+.top-title {
+    margin-top: -200px;
+    height: 350px;
+    width: 830px;
+    padding-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    color:  white;
+    background-attachment: fixed;
+    background: rgba(0,0,0,0.4);
+
+    p {
+    margin: 0 0 10px;
+    margin-top: 20px;
+    }
+}
+
+.top-container {
+  padding-top: 400px;
+  width: 100%;
+  height: 750px;
+  background-size: cover;
+  background-image: url("top.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-color: #464646;
+  opacity: 0.9;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  text-align: center;
+}

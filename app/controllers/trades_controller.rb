@@ -19,17 +19,16 @@ class TradesController < ApplicationController
     @trade = Trade.new(trades_params)
     if @trade.from_token_name == @trade.to_token_name
       redirect_to trades_path, notice: "Token types are the same!"
+    end
+    @trade.from_token_name =  Token.find(@trade.from_token_name.to_i).symbol
+    @trade.to_token_name =  Token.find(@trade.to_token_name.to_i).symbol
+    @trade.to_token_amount = @trade.price * @trade.from_token_amount
+    @hasheduser = Hasheduser.find(current_user.id)
+    @trade.maker_address = @hasheduser.ether_account
+    if @trade.save
+      redirect_to trades_path, notice: "Success Sale's Info Set!"
     else
-      @trade.from_token_name =  Token.find(@trade.from_token_name.to_i).symbol
-      @trade.to_token_name =  Token.find(@trade.to_token_name.to_i).symbol
-      @trade.to_token_amount = @trade.price * @trade.from_token_amount
-      @hasheduser = Hasheduser.find(current_user.id)
-      @trade.maker_address = @hasheduser.ether_account
-      if @trade.save
-        redirect_to trades_path, notice: "Success Sale's Info Set!"
-      else
-        render 'new'
-      end
+      render 'new'
     end
   end
 
