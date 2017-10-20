@@ -1,13 +1,8 @@
 // Place all the styles related to the top controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.flash {
-  color: white;
-  padding-top: 10px;
-}
-
 .navbar-default {
-  margin-bottom: auto;
+  margin-bottom: -10px;
 }
 
 .title {
@@ -23,6 +18,7 @@
     margin-top: -200px;
     height: 350px;
     width: 830px;
+    text-align: center;
     padding-top: 30px;
     margin-left: auto;
     margin-right: auto;
@@ -54,7 +50,7 @@ html {
   position: relative;
   min-height: 100%;
 }
-
-body {
-  text-align: center;
-}
+//
+// body {
+//   text-align: center;
+// }
