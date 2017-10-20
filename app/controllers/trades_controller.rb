@@ -1,5 +1,6 @@
 class TradesController < ApplicationController
   require "#{Dir.pwd}/app/models/EthereumAPI.rb"
+  require "#{Dir.pwd}/app/models/UpdatePosession.rb"
   before_action :set_trade, only: [:transfer, :destroy]
 
   def index
@@ -33,79 +34,36 @@ class TradesController < ApplicationController
   end
 
   def transfer
-    # get token address
-    maker_token_address = Token.find_by(symbol: @trade.from_token_name).token_address
-    taker_token_address = Token.find_by(symbol: @trade.to_token_name).token_address
-    # execute smart contract (transferfrom)
+    # TODO: Error check
     @hasheduser = Hasheduser.find(current_user.id)
     if @trade.from_token_amount < params[:amount].to_i
       puts "It exceeds the amount that can be traded"
       redirect_to trades_path, notice: "It exceeds the amount that can be traded"
     else
+      # Tradeするmaker tokenとtaker tokenの量をint型で取得する
       maker_amount = params[:amount].to_i
       taker_amount = (maker_amount * @trade.price).to_i
       # Update Trade Table
       @trade.from_token_amount -= maker_amount
-
       @trade.to_token_amount -= taker_amount
       @trade.update(from_token_amount: @trade.from_token_amount, to_token_amount: @trade.to_token_amount)
 
-      # TODO: リファクタ...
+      # Posession Tableをupdateするために必要な情報を取得
       maker_token_id = Token.find_by(symbol: @trade.from_token_name).id
       taker_token_id = Token.find_by(symbol: @trade.to_token_name).id
       maker_id = Hasheduser.find_by(ether_account: @trade.maker_address).id
       taker_id = Hasheduser.find(current_user.id).id
-      # 1) Update maker token
-      @maker_posession_maker_token = Posession.find_by(token_id: maker_token_id, user_id: maker_id)
-      if @maker_posession_maker_token == nil
-        @maker_posession_maker_token = Posession.new
-        @maker_posession_maker_token.user_id = maker_id
-        @maker_posession_maker_token.token_id = maker_token_id
-        @maker_posession_maker_token.balance = maker_amount
-        @maker_posession_maker_token.save
-      else
-        @maker_posession_maker_token.balance -= maker_amount
-        @maker_posession_maker_token.update(balance: @maker_posession_maker_token.balance)
-      end
-      @maker_posession_taker_token = Posession.find_by(token_id: taker_token_id, user_id: maker_id)
-      if @maker_posession_taker_token == nil
-        @maker_posession_taker_token = Posession.new
-        @maker_posession_taker_token.user_id = maker_id
-        @maker_posession_taker_token.token_id = taker_token_id
-        @maker_posession_taker_token.balance = taker_amount
-        @maker_posession_taker_token.save
-      else
-        @maker_posession_taker_token.balance += taker_amount
-        @maker_posession_taker_token.update(balance: @maker_posession_taker_token.balance)
-      end
-
-      # 2) Update taker token
-      @taker_posession_maker_token = Posession.find_by(token_id: maker_token_id, user_id: taker_id)
-      if @taker_posession_maker_token == nil
-        @taker_posession_maker_token = Posession.new
-        @taker_posession_maker_token.user_id = taker_id
-        @taker_posession_maker_token.token_id = maker_token_id
-        @taker_posession_maker_token.balance = maker_amount
-        @taker_posession_maker_token.save
-      else
-        @taker_posession_maker_token.balance += maker_amount
-        @taker_posession_maker_token.update(balance: @taker_posession_maker_token.balance)
-      end
-      @taker_posession_taker_token = Posession.find_by(token_id: taker_token_id, user_id: taker_id)
-      if @taker_posession_taker_token == nil
-        @taker_posession_taker_token = Posession.new
-        @taker_posession_taker_token.user_id = taker_id
-        @taker_posession_taker_token.token_id = taker_token_id
-        @taker_posession_taker_token.balance = taker_amount
-        @taker_posession_taker_token.save
-      else
-        @taker_posession_taker_token.balance -= taker_amount
-        @taker_posession_taker_token.update(balance: @taker_posession_taker_token.balance)
-      end
-
+      # Update Posession Table
+      updatePosession = UpdatePosession.new()
+      updatePosession.updatePosessionTable(maker_token_id, taker_token_id, maker_id, taker_id, maker_amount, taker_amount)
+      # Trade情報のMakerTokenの残高が0になったら行を削除する
       if @trade.from_token_amount == 0
         @trade.destroy
       end
+      # Execute smart contract
+      # Get token address
+      maker_token_address = Token.find_by(symbol: @trade.from_token_name).token_address
+      taker_token_address = Token.find_by(symbol: @trade.to_token_name).token_address
       smartContract = EthereumAPI.new()
       smartContract.executeTransfer(maker_token_address, taker_token_address, @trade.maker_address, @hasheduser.ether_account, maker_amount, taker_amount, @hasheduser.ether_account_password)
       redirect_to trades_path, notice: "Success Transfer!"
