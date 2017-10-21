@@ -1,9 +1,6 @@
 // Place all the styles related to the top controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.navbar-default {
-  margin-bottom: -10px;
-}
 
 .title {
   text-align: center;
@@ -14,15 +11,21 @@
   }
 }
 
-.top-title {
-    margin-top: -200px;
-    height: 350px;
-    width: 830px;
-    text-align: center;
+.btn-block {
+    width: 100%;
+    margin-top: 50px;
+}
+
+.token_issue {
+    height: 250px;
+    width: 760px;
     padding-top: 30px;
+    margin: 0 auto;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
     color:  white;
+	  line-height: 300px;
     background-attachment: fixed;
     background: rgba(0,0,0,0.4);
 
@@ -32,25 +35,21 @@
     }
 }
 
-.top-container {
-  padding-top: 400px;
+.main-header {
+  padding-top: 5%;
+  padding-bottom: 15%;
+  margin-top: -20px;
   width: 100%;
-  height: 750px;
   background-size: cover;
-  background-image: url("top.png");
+  background-image: url("ethereum.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  background-color: #464646;
+  background-size: 45% auto;
+
   opacity: 0.9;
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+
+.attention {
+    background-color: white;
 }
-//
-// body {
-//   text-align: center;
-// }

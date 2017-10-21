@@ -19,3 +19,10 @@
  .bootstrap-date-only-width {
    width: auto;
  }
+
+ .alert {
+     /* padding: 15px; */
+     margin-bottom: 35px;
+     border: 1px solid transparent;
+     border-radius: 4px;
+ }

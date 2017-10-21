@@ -1,13 +1,18 @@
-<section class="main-header">
-  <p class="flash"><%= notice %><%= alert %></p>
-</section>
-<div class="top-container">
-  <div class="top-title">
-    <h1><FONT size="7" color="white">Token Trader Ruby Ethereum</FONT></h1>
-    <br>
-    <br>
-    <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
-      <%= link_to "Token Issue", tokens_path, class:'btn btn-primary btn-block'%>
-    </div>
-  </div>
+<% flash.each do |key, value| %>
+<div class="alert alert-<%= key %>">
+<%= value %>
 </div>
+<% end %>
+<section class="main-header">
+    <section class="token_issue">
+      <h1><FONT size="7" color="white">Token Trader</FONT> <FONT size="7" color="red">Ruby</FONT> <FONT size="7" color="white">Ethereum</FONT></h1>
+      <div class="col-md-6 col-md-offset-3 col-sm-10 col-sm-offset-1">
+        <%= link_to "Token Issue", tokens_path, class:'btn btn-primary btn-block'%>
+      </div>
+    </section>
+
+</section>
+<section class="attention">
+  <div class="container">
+</div>
+</section>
