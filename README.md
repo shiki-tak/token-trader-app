@@ -20,7 +20,7 @@
 
 ## Set up
 ※ リポジトリのPATHは各自の環境に合わせてください※
-1. Gethのインストール    
+### 1. Gethのインストール    
   1. go-ethereumをgitリポジトリからクローンする  
   ```
   $ git clone https://github.com/ethereum/go-ethereum.git
@@ -54,7 +54,7 @@
   /usr/local/bin/geth
   ```
 
-2. テストネットワークでGethを起動する
+### 2. テストネットワークでGethを起動する
   1. データディレクトリを準備する
   ```
   $ mkdir ~/data_testnet
@@ -115,7 +115,7 @@
   140956
   ```
 
-3. Smart contract開発用のコンパイラをインストール
+### 3. Smart contract開発用のコンパイラをインストール
   1. 以下のコマンドを実行してSolidityのコンパイラをインストールする。
   ```
   $ brew update
@@ -145,7 +145,7 @@
   ["Solidity"]
   ```
 
-4. アプリケーションの設定
+### 4. アプリケーションの設定
   以下のコマンドを実行し、アプリケーションを起動する。
   ```
   $ git clone https://github.com/shiki-tak/token-trader-app.git
