@@ -11,19 +11,29 @@
   }
 }
 
-.btn-block {
-    width: 100%;
-    margin-top: 50px;
+.token_issue {
+  height: 250px;
+  width: 760px;
+  margin: 0 auto;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  line-height: 300px;
+  background-attachment: fixed;
+  .btn-block {
+      width: 40%;
+      margin-top: 340px;
+  }
 }
+
 .main-header {
-  padding-top: 35%;
-  margin-top: -20px;
+  height: 430px;
   width: 100%;
   background-size: cover;
   background-image: url("ethereum.svg");
   background-position: center center;
   background-repeat: no-repeat;
-  background-size: 45% auto;
+  background-size: 25% auto;
 
   opacity: 0.9;
 }
