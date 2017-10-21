@@ -1,6 +1,9 @@
 # Token Trader App
 このアプリケーションはEthereumを使ったアプリ開発の流れを習得するために開発したTokenをトレードするデモアプリです。  
 トークンはEthereumが提唱しているトークンの標準仕様「ERC20」に準拠しています。  
+
+![app-top-image](./public/app-top-image.png)
+
 【目標】
 - EthereumのAPIを使い、WebブラウザからSmart Contractを実行する方法を理解する。
 - Rubyで書かれたEthereumのライブラリが使えるようになる。  
