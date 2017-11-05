@@ -85,7 +85,7 @@
   今回はHTTP-RPCサーバーを有効にして起動する
   ```
   geth --networkid 4649 --nodiscover --maxpeers 0 --datadir /home/eth/data_testnet
-   --mine --minerthreads 1 --rpc --rpcaddr "0.0.0.0" --rport 8545 --rpccorsdomain "*" --rpcapi "admin, db, eth,
+   --mine --minerthreads 1 --rpc --rpcaddr "0.0.0.0" --rpcport 8545 --rpccorsdomain "*" --rpcapi "admin, db, eth,
    debug, miner, net, shh, txpool, personal, web3" 2>> /home/eth/data_testnet/geth.log
   ```
   5. 以下のコマンドでGethのコンソールに接続して正常に起動しているか確認する
