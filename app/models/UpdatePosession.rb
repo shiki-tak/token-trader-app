@@ -13,6 +13,7 @@ class UpdatePosession
       @maker_posession_maker_token.balance -= maker_amount
       @maker_posession_maker_token.update(balance: @maker_posession_maker_token.balance)
     end
+
     @maker_posession_taker_token = Posession.find_by(token_id: taker_token_id, user_id: maker_id)
     if @maker_posession_taker_token == nil
       @maker_posession_taker_token = Posession.new
@@ -37,6 +38,7 @@ class UpdatePosession
       @taker_posession_maker_token.balance += maker_amount
       @taker_posession_maker_token.update(balance: @taker_posession_maker_token.balance)
     end
+    
     @taker_posession_taker_token = Posession.find_by(token_id: taker_token_id, user_id: taker_id)
     if @taker_posession_taker_token == nil
       @taker_posession_taker_token = Posession.new
