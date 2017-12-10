@@ -161,6 +161,7 @@ Ethereumを使ったアプリ開発の技術習得を目標としているので
   $ rake db:migrate
   $ rails s
   ```
+  ※ ethereumAPI.rbの"ETHEREUM_ADDRESS", "SUPPLIER_ADDRESS", "SUPPLIER_PASSWORD"を環境に合わせて変更する。
 
   ※※※アプリの使い方はAPP_PROCEDURE.mdを参照※※※
 
